@@ -25,11 +25,11 @@ export default function AllPosts() {
       });
     }
     fetchPosts();
-    console.log("All posts page");
+    console.log("All posts");
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView>
       {posts.length > 0 ?posts.map(item => (<BoxContainer key={item._id} item={item}/>)) : <Text>Loading...</Text>}
       </ScrollView>
@@ -38,11 +38,6 @@ export default function AllPosts() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
