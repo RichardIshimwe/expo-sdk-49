@@ -6,7 +6,7 @@ import { ApplicationProvider, IconRegistry, Layout, Text } from '@ui-kitten/comp
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 
-import Container from './Container';
+import Container from '.';
 // import TabOneScreen from '.';
 
 /**

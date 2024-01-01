@@ -13,7 +13,7 @@ export default function Container(){
 
   return(
     <Tab.Navigator>
-    <Tab.Screen 
+    <Tab.Screen
     name="Home" 
     component={Home} 
     options={{
@@ -21,7 +21,7 @@ export default function Container(){
       tabBarIcon: ({ color }) => <Ionicons name='md-home' size={24} color="black"/>,
     }}
     />
-    <Tab.Screen 
+    <Tab.Screen
     name="Add Post" 
     component={AddPost} 
     options={{
@@ -29,7 +29,7 @@ export default function Container(){
       tabBarIcon: ({ color }) => <FontAwesome name='plus' size={24} color="black"/>,
     }}
     />
-  </Tab.Navigator>
+    </Tab.Navigator>
   )
 }
 

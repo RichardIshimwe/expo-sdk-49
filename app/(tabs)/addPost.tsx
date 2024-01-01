@@ -10,7 +10,7 @@ export default function AddPost() {
       <ScrollView>
          <Stack.Screen options={{headerShown: false}} />
          <TopNavigationImageTitleShowcase title="Add Post"/>
-          <View className='flex items-center justify-center'>
+          <View className='bg-red-300'>
            <Text className='font-bold'>Add Post</Text>
           </View>
       </ScrollView>
