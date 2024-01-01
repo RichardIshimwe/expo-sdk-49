@@ -33,7 +33,7 @@ const LogoutIcon = (props: any): IconElement => (
   />
 );
 
-export const TopNavigationImageTitleShowcase = (): React.ReactElement => {
+export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React.ReactElement => {
 
   const [menuVisible, setMenuVisible] = React.useState(false);
 
@@ -72,7 +72,7 @@ export const TopNavigationImageTitleShowcase = (): React.ReactElement => {
         source={require('../../assets/icon.png')}
       /> */}
       <Text {...props} style={styles.name}>
-        ObstacleSwap
+        {title}
       </Text>
     </View>
   );

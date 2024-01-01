@@ -2,6 +2,7 @@ import { StyleSheet, FlatList, View, Text,ScrollView } from 'react-native';
 
 import BoxContainer from '../../components/BoxContainer';
 import { useEffect, useState } from 'react';
+import { Stack } from 'expo-router';
 
 export   type Post = {
   _id: string,
@@ -22,6 +23,7 @@ export default function AllPosts() {
     const fetchPosts = async () => {
       const response = await fetch('https://puce-helpful-xerus.cyclic.app/blogs').then(res => res.json()).then(data => {
         setPosts(data?.data);
+        console.log(data?.data);
       });
     }
     fetchPosts();
@@ -31,7 +33,8 @@ export default function AllPosts() {
   return (
     <View>
       <ScrollView>
-      {posts.length > 0 ?posts.map(item => (<BoxContainer key={item._id} item={item}/>)) : <Text>Loading...</Text>}
+      <Stack.Screen options={{headerShown: false}} />
+      {posts?.length > 0 ?posts.map(item => (<BoxContainer key={item._id} item={item}/>)) : <Text>Loading...</Text>}
       </ScrollView>
     </View>
   );

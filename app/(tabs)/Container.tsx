@@ -1,27 +1,35 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import Box from '../../components/Box';
 import Home from './home';
-import BottomBar from '../../components/BottomBar';
-import AllPosts from './allPosts';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import AddPost from './addPost';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
 
 export default function Container(){
+
+
   return(
-    <View style={{flex:1,backgroundColor: "#f8f8f8"}}>
-    <View style={styles.container}>
-       <Home />
-       <AllPosts />
-       <BottomBar />
-    </View>
-    </View>
-  //   <Tab.Navigator>
-  //   <Tab.Screen name="home" component={Home} />
-  //   <Tab.Screen name="Settings" component={AllPosts} />
-  // </Tab.Navigator>
+    <Tab.Navigator>
+    <Tab.Screen 
+    name="Home" 
+    component={Home} 
+    options={{
+      title: "Home",
+      tabBarIcon: ({ color }) => <Ionicons name='md-home' size={24} color="black"/>,
+    }}
+    />
+    <Tab.Screen 
+    name="Add Post" 
+    component={AddPost} 
+    options={{
+      title: "Add Post",
+      tabBarIcon: ({ color }) => <FontAwesome name='plus' size={24} color="black"/>,
+    }}
+    />
+  </Tab.Navigator>
   )
 }
 
