@@ -1,4 +1,4 @@
-import { Stack, Redirect } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as React from 'react';
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image  } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -34,8 +34,8 @@ export default () => {
         body: formData,
       })
       .then(response => {
-        console.log("redirecting to all posts");
-        return <Redirect href="/(tabs)/allPosts" />
+        console.log("response : ");
+        console.log(response);
     }).catch(err => console.log(err))
   };
 
@@ -54,7 +54,13 @@ export default () => {
         aspect: [4, 3],
         quality: 1,
      });
+     console.log("this is the selected image")
+     console.log(result);
      if(!result.canceled) {
+        console.log("this is the selected image")
+        console.log(result);
+        console.log("this is the selected image array of zero")
+        console.log(result.assets[0]);
         setImage(result.assets[0].uri)
      }
 
@@ -62,6 +68,8 @@ export default () => {
         console.log(error);
     }
   }
+
+  console.log('errors', errors);
 
   return (
     <View className='h-screen bg-green-400'>
