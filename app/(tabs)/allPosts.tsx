@@ -21,13 +21,11 @@ export default function AllPosts() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('https://puce-helpful-xerus.cyclic.app/blogs').then(res => res.json()).then(data => {
+      const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
         setPosts(data?.data);
-        console.log(data?.data);
-      });
+      }).catch(err => console.log(err));
     }
     fetchPosts();
-    console.log("All posts");
   }, []);
 
   return (
