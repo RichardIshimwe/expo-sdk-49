@@ -27,7 +27,6 @@ export default function BoxContainer({ item } : {item : Post}) {
 const styles = StyleSheet.create({
     container : {
         flex: 1,
-        width: "100%",
         flexDirection: "row",
         justifyContent: "center", 
         alighItems: "center",

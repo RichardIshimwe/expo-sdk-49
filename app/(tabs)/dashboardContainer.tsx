@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
 
   container_post : {
     flex: 1,
-    width: "100%",
     flexDirection: "row",
     justifyContent: "center", 
     alighItems: "center",
@@ -204,6 +203,7 @@ title_post: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "left",
+    marginBottom: 5,
     color: "black"
 },
 bySection_post: {
