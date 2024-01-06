@@ -1,14 +1,26 @@
 import { Stack, Redirect } from 'expo-router';
-import * as React from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image  } from 'react-native';
+import {useCallback, useState, useEffect} from 'react';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image, Platform  } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
 import * as ImagePicker from "expo-image-picker";
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { pushNotification } from '../../utils/pushNotification';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default () => {
+    const [expoPushToken, setExpoPushToken] = useState('');
     const FormData = global.FormData;
-    const [image, setImage] = React.useState("");
-  const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
+    const [image, setImage] = useState("");
+    const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
     defaultValues: {
       title: "",
       author: "",
@@ -16,6 +28,9 @@ export default () => {
     }
   });
   const onSubmit = (data: any) => {
+    console.log(data);
+    // alert("hey alert");
+    // alert(JSON.stringify(data));
     const formData = new FormData();
     formData.append('image', {
         uri: image,
@@ -35,8 +50,25 @@ export default () => {
       })
       .then(response => {
         console.log("redirecting to all posts");
+        pushNotification({
+          to: expoPushToken,
+          sound: 'default',
+          title: 'Original Title',
+          body: "obstacle was created successfully",
+          data: { someData: 'goes here' },
+        })
         return <Redirect href="/(tabs)/allPosts" />
-    }).catch(err => console.log(err))
+    }).catch(err => 
+      {
+        console.log(err);
+        pushNotification({
+          to: expoPushToken,
+          sound: 'default',
+          title: 'Original Title',
+          body: `error occured ${err}`,
+          data: { someData: 'goes here' },
+  })
+      })
   };
 
   const onChange = (arg: { nativeEvent: { text: any; }; }) => {
@@ -61,6 +93,50 @@ export default () => {
     } catch (error) {
         console.log(error);
     }
+  }
+
+  useEffect(() => {
+    console.log(" registering for react push notification application..");
+    registerForPushNotificationsAsync().then(token => {
+      console.log(token);
+      setExpoPushToken(token as string);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+  
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+  
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      // Learn more about projectId:
+      // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+      token = (await Notifications.getExpoPushTokenAsync({ projectId: '4c3a2181-38be-4bd6-8cfc-29f165f1108f' })).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+  
+    return token;
   }
 
   return (
@@ -120,12 +196,19 @@ export default () => {
       <View className='mt-[10px]'>
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       </View>
-      <View className='mt-[40px] rounded-md'>
+      <View className='mt-[40px] rounded-md bg-black'>
         <Button
           color={'#ec5990'}
           title="Submit"
           onPress={handleSubmit(onSubmit)}
         />
+        <Button title='send push notification' onPress={() => pushNotification({
+                to: expoPushToken,
+                sound: 'default',
+                title: 'Original Title',
+                body: 'My new Notification',
+                data: { someData: 'goes here' },
+        })} />
       </View>
       </View>
       </View>
