@@ -10,7 +10,7 @@ import {
 
 import DasboardBox from '../../components/DashboardBox';
 import { useEffect, useState } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, useFocusEffect } from 'expo-router';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { notifications } from '../../modal/notifications';
@@ -62,6 +62,10 @@ export default function DashboardContainer() {
       await fetchPosts();
   }).catch(err => console.log(err))
   }
+
+  useFocusEffect(() => {
+    fetchPosts();
+  })
 
   useEffect(() => {
     fetchPosts();
