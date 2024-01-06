@@ -5,7 +5,7 @@ import {
    Animated,
    TouchableHighlight,
    TouchableOpacity,
-   StatusBar,Image } 
+   StatusBar,Image, ActivityIndicator } 
    from 'react-native';
 
 import DasboardBox from '../../components/DashboardBox';
@@ -30,6 +30,7 @@ export   type Post = {
 export default function DashboardContainer() {
 
   const [posts, setPosts] = useState<Post[]>([]);
+  const [deleting, setDeleting] = useState(false);
   const [listData, setListData] = useState(
     notifications.map((notificationItem, index) => ({
       key: `${index}`,
@@ -46,7 +47,7 @@ export default function DashboardContainer() {
   }
 
   const deletePost = async (id: string) => {
-    console.log("post id : ", id);
+    setDeleting(true);
     await fetch(`https://my-brand-cj08.onrender.com/blogs/${id}`, {
       method: 'DELETE',
       headers: {
@@ -57,6 +58,7 @@ export default function DashboardContainer() {
     .then(response => response.json())
     .then(async resp => {
       console.log(resp)
+      setDeleting(false);
       await fetchPosts();
   }).catch(err => console.log(err))
   }
@@ -66,11 +68,10 @@ export default function DashboardContainer() {
   }, []);
 
   const onClose = (rowMap : any, rowKey : any) => {
-    console.log("row key", rowKey);
-    // console.log("row key", rowMap[rowKey]);
-    //  if(rowMap[rowKey]) {
-    //   rowMap[rowKey].closeRow();
-    //  }
+    console.log("closing model")
+     if(rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+     }
   }
 
   const onDelete = (rowKey : any) => {
@@ -121,7 +122,7 @@ export default function DashboardContainer() {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onDelete}>
           <Animated.View style={[styles.trash]}>
-             <AntDesign name="delete" size={24} color="black" />
+             {deleting ? <ActivityIndicator animating={true} /> : <FontAwesome name="trash" size={24} color="black" /> }
           </Animated.View>
         </TouchableOpacity>
       </View>
