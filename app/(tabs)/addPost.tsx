@@ -65,6 +65,12 @@ export default () => {
           body: "obstacle was created successfully",
           data: { someData: 'goes here' },
         })
+        reset({
+          title: "",
+          author: "",
+          description: ""
+        });
+        setImage("");
         setAddPostLoading(false);
         return <Redirect href="/(tabs)/allPosts" />
     }).catch(err => 
