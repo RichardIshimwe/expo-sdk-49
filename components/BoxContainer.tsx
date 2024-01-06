@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         textAlign: "left",
+        marginBottom: 5,
         color: "black"
     },
     bySection: {
