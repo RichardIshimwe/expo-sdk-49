@@ -66,8 +66,8 @@ import DasboardBox from '../../components/DashboardBox';
 import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { notifications } from '../../modal/notifications';
-
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 export   type Post = {
@@ -91,6 +91,15 @@ export default function DashboardContainer() {
       details: notificationItem.details
     })
   ));
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
+        setPosts(data?.data);
+      }).catch(err => console.log(err));
+    }
+    fetchPosts();
+  }, []);
 
   const onClose = (rowMap : any, rowKey : any) => {
      if(rowMap[rowKey]) {
@@ -132,8 +141,16 @@ export default function DashboardContainer() {
     return (
       <View style={styles.rowBack}>
         <Text>Left</Text>
-        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={onClose}><Text>Close</Text></TouchableOpacity>
-        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onDelete}><Text>Delete</Text></TouchableOpacity>
+        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={onClose}>
+          <View style={styles.trash}>
+            <FontAwesome name="edit" size={24} color="black" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onDelete}>
+          <Animated.View style={[styles.trash]}>
+             <AntDesign name="delete" size={24} color="black" />
+          </Animated.View>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -149,16 +166,6 @@ export default function DashboardContainer() {
     )
  }
 
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
-        setPosts(data?.data);
-      }).catch(err => console.log(err));
-    }
-    fetchPosts();
-  }, []);
-
   return (
     <View style={styles.container}>
     <SwipeListView
@@ -166,7 +173,15 @@ export default function DashboardContainer() {
      renderItem={renderItem}
      renderHiddenItem={renderHiddenItem}
      leftOpenValue={75}
-      rightOpenValue={-150}
+     rightOpenValue={-150}
+     disableRightSwipe
+     rightActivationValue={-200}
+     leftActivationValue={100}
+     leftActionValue={0}
+     rightActionValue={-500}
+     onLeftAction={onClose}
+    //  onRightAction={onClose}
+     onRightAction={onDelete}
      />
     </View>
   );
