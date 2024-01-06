@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { Post } from "../app/(tabs)/allPosts";
 
 
-export default function BoxContainer({ item } : {item : Post}) {
+export default function DasboardBox({ item } : {item : Post}) {
 
     return (
         <View style={styles.container}>
@@ -28,24 +28,18 @@ const styles = StyleSheet.create({
     container : {
         flex: 1,
         width: "100%",
+        backgroundColor: "red",
         flexDirection: "row",
         justifyContent: "center", 
-        alighItems: "center",
-        backgroundColor: '#FFF',
-        borderRadius: 5,
-        margin: 5,
-        marginBottom: 10,
-        shadowColor: '#999',
-        shadowOffset: {width: 0, height: 1},
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
+        alighItems: "center"
     },
     box : {
         width: "95%",
         flexDirection: "row",
         height: 125,
+        marginTop: 10,
         padding: 10,
+        backgroundColor: "green", 
     },
     image: {
         width: "40%",
@@ -59,6 +53,7 @@ const styles = StyleSheet.create({
     content:{
         width: "60%",
         height: "100%",
+        backgroundColor: "white",
         padding: 5
     },
     title: {
@@ -68,6 +63,7 @@ const styles = StyleSheet.create({
         color: "black"
     },
     bySection: {
+        // backgroundColor: "green",
     },
     description: {
         textAlign: "left",

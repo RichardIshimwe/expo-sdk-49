@@ -30,7 +30,13 @@ export default () => {
   });
   const onSubmit = (data: any) => {
     setAddPostLoading(true);
-    console.log(data);
+    console.log("all data",data);
+    if(!image || data.title == "" || data.author == "" || data.description == ""){
+      alert("please fill all fields");
+      // setAddPostLoading(false);
+      return;
+    }
+
     // alert("hey alert");
     // alert(JSON.stringify(data));
     const formData = new FormData();
@@ -72,7 +78,6 @@ export default () => {
           data: { someData: 'goes here' },
   })
       });
-      // setAddPostLoading(false);
   };
 
   const onChange = (arg: { nativeEvent: { text: any; }; }) => {
@@ -182,6 +187,7 @@ export default () => {
         control={control}
          render={({field: { onChange, onBlur, value }}) => (
           <TextInput
+            multiline={true}
             className='bg-red-300 h-[100px] p-2 rounded-md'
             onBlur={onBlur}
             onChangeText={value => onChange(value)}
@@ -206,20 +212,6 @@ export default () => {
       >
        {addPostLoading ? <ActivityIndicator animating={true} /> : <Text className='text-white font-bold'>Submit</Text>}
       </TouchableOpacity>
-      {/* <View className='mt-[40px] rounded-md bg-black'>
-        <Button
-          color={'#ec5990'}
-          title="Submit"
-          onPress={handleSubmit(onSubmit)}
-        /> */}
-        {/* <Button title='send push notification' onPress={() => pushNotification({
-                to: expoPushToken,
-                sound: 'default',
-                title: 'Original Title',
-                body: 'My new Notification',
-                data: { someData: 'goes here' },
-        })} /> */}
-      {/* </View> */}
       </View>
       </View>
     </View>
