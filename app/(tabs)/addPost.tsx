@@ -1,6 +1,6 @@
 import { Stack, Redirect } from 'expo-router';
 import {useCallback, useState, useEffect} from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image, Platform  } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image, Platform, ActivityIndicator  } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
 import * as ImagePicker from "expo-image-picker";
@@ -18,6 +18,7 @@ Notifications.setNotificationHandler({
 
 export default () => {
     const [expoPushToken, setExpoPushToken] = useState('');
+    const [addPostLoading, setAddPostLoading] = useState(false);
     const FormData = global.FormData;
     const [image, setImage] = useState("");
     const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
@@ -28,6 +29,7 @@ export default () => {
     }
   });
   const onSubmit = (data: any) => {
+    setAddPostLoading(true);
     console.log(data);
     // alert("hey alert");
     // alert(JSON.stringify(data));
@@ -57,6 +59,7 @@ export default () => {
           body: "obstacle was created successfully",
           data: { someData: 'goes here' },
         })
+        setAddPostLoading(false);
         return <Redirect href="/(tabs)/allPosts" />
     }).catch(err => 
       {
@@ -68,7 +71,8 @@ export default () => {
           body: `error occured ${err}`,
           data: { someData: 'goes here' },
   })
-      })
+      });
+      // setAddPostLoading(false);
   };
 
   const onChange = (arg: { nativeEvent: { text: any; }; }) => {
@@ -196,20 +200,26 @@ export default () => {
       <View className='mt-[10px]'>
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
       </View>
-      <View className='mt-[40px] rounded-md bg-black'>
+      <TouchableOpacity
+      onPress={handleSubmit(onSubmit)}
+      className='bg-black rounded-md mt-[20px] flex items-center justify-center h-[40px]'
+      >
+       {addPostLoading ? <ActivityIndicator animating={true} /> : <Text className='text-white font-bold'>Submit</Text>}
+      </TouchableOpacity>
+      {/* <View className='mt-[40px] rounded-md bg-black'>
         <Button
           color={'#ec5990'}
           title="Submit"
           onPress={handleSubmit(onSubmit)}
-        />
-        <Button title='send push notification' onPress={() => pushNotification({
+        /> */}
+        {/* <Button title='send push notification' onPress={() => pushNotification({
                 to: expoPushToken,
                 sound: 'default',
                 title: 'Original Title',
                 body: 'My new Notification',
                 data: { someData: 'goes here' },
-        })} />
-      </View>
+        })} /> */}
+      {/* </View> */}
       </View>
       </View>
     </View>
