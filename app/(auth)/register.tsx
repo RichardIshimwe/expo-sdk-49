@@ -11,20 +11,24 @@ export default function TestTab() {
         defaultValues: {
           email: "",
           password: "",
+          confirmPassword: "",
+          userName: ""
         }
       });
       const onSubmit = async (data: any) => {
         console.log("all data", data);
     
         try {
-            const response = await fetch(`https://my-brand-cj08.onrender.com/login`, {
+            const response = await fetch(`https://my-brand-cj08.onrender.com/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: data.email,
-                    password: data.password,
+                    email:data.email,
+                    username:data.userName,
+                    password:data.password,
+                    confirmPassword:data.confirmPassword
                 }),
             });
     
@@ -43,7 +47,7 @@ export default function TestTab() {
 
   return (
   <View className='bg-red-300'>
-   <View  className="flex ">
+   <View  className="flex">
         <SafeAreaView className="flex-row justify-start">
           <TouchableOpacity 
             
@@ -76,6 +80,20 @@ export default function TestTab() {
         name="email"
         rules={{ required: true }}
       />
+        <Text >Username</Text>
+      <Controller
+        control={control}
+        render={({field: { onChange, onBlur, value }}) => (
+          <TextInput
+            className='bg-red-300 h-[40px] p-2 rounded-md'
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            value={value}
+          />
+        )}
+        name="userName"
+        rules={{ required: true }}
+      />
       <Text >Password</Text>
       <Controller
         control={control}
@@ -90,6 +108,20 @@ export default function TestTab() {
         name="password"
         rules={{ required: true }}
       />
+            <Text >Confirm Password</Text>
+      <Controller
+        control={control}
+        render={({field: { onChange, onBlur, value }}) => (
+          <TextInput
+            className='bg-red-300 h-[40px] p-2 rounded-md'
+            onBlur={onBlur}
+            onChangeText={value => onChange(value)}
+            value={value}
+          />
+        )}
+        name="confirmPassword"
+        rules={{ required: true }}
+      />
       </View>
       </View>
       </View>
@@ -99,16 +131,16 @@ export default function TestTab() {
                 <Text 
                     className="text-xl font-bold text-center text-gray-700"
                 >
-                        {isLoading ? <ActivityIndicator animating={true} /> : <Text className='text-xl font-bold text-center text-gray-700'>Login</Text>}
+                        {isLoading ? <ActivityIndicator animating={true} /> : <Text className='text-xl font-bold text-center text-gray-700'>Register</Text>}
                 </Text>
              </TouchableOpacity>
           </View>
-          <View className="flex-row justify-center mt-7">
+          <View className="flex-row justify-center pt-5 bg-white h-screen">
               <Text className="text-gray-500 font-semibold">
-                  Don't have an account?
+                  Already have an account?
               </Text>
               <TouchableOpacity>
-                  <Text className="font-semibold text-yellow-500"> Sign Up</Text>
+                  <Text className="font-semibold text-yellow-500"><Link href="/sign-in">Login</Link></Text>
               </TouchableOpacity>
           </View>
           
