@@ -118,7 +118,7 @@ export default function DashboardContainer() {
   const HiddenItemWithActions = ({onClose , onDelete, data, rowMap} : {onClose: () => void, data: any ,rowMap: any, onDelete : () => void}) => {
     return (
       <View style={styles.rowBack}>
-        <Text>Left</Text>
+        <Text></Text>
         <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={onClose}>
           <View style={styles.trash}>
             <FontAwesome name="edit" size={24} color="black" />

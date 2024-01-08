@@ -10,6 +10,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
+import { router } from 'expo-router';
 
 
 const MenuIcon = (props: any): IconElement => (
@@ -25,6 +26,7 @@ const InfoIcon = (props: any): IconElement => (
     name='info'
   />
 );
+
 
 const LogoutIcon = (props: any): IconElement => (
   <Icon
@@ -48,6 +50,8 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
     />
   );
 
+  
+
   const renderOverflowMenuAction = (): React.ReactElement => (
     <OverflowMenu
       anchor={renderMenuAction}
@@ -59,6 +63,7 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
         title='About'
       />
       <MenuItem
+       onPress={() => {console.log("logout")}}
         accessoryLeft={LogoutIcon}
         title='Logout'
       />
@@ -76,6 +81,7 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
       </Text>
     </View>
   );
+
 
   return (
     <TopNavigation
