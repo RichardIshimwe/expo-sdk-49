@@ -2,10 +2,20 @@ import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Text, TextInput, TouchableOpacity, View, Image, SafeAreaView, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TestTab() {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const storeData = async (key: string, value: string) => {
+      try {
+        AsyncStorage.setItem(key, value);
+        console.log('Data successfully saved'); 
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
         defaultValues: {
@@ -16,8 +26,7 @@ export default function TestTab() {
         }
       });
       const onSubmit = async (data: any) => {
-        console.log("all data", data);
-    
+        setIsLoading(true);
         try {
             const response = await fetch(`https://my-brand-cj08.onrender.com/signup`, {
                 method: 'POST',
@@ -30,21 +39,23 @@ export default function TestTab() {
                     password:data.password,
                     confirmPassword:data.confirmPassword
                 }),
+            })
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json)
+              setIsLoading(false);
+              const userIn = JSON.stringify(json);
+              storeData('user' ,userIn);
+            })
+            .catch((error) => {
+              console.log(error);
+              setIsLoading(false);
             });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-    
-            const resp = await response.json();
-            console.log(resp);
-    
         } catch (error : any) {
             console.error('Error:', error.message);
         }
     };
     
-
   return (
   <View className='bg-red-300'>
    <View  className="flex">
@@ -131,7 +142,7 @@ export default function TestTab() {
                 <Text 
                     className="text-xl font-bold text-center text-gray-700"
                 >
-                        {isLoading ? <ActivityIndicator animating={true} /> : <Text className='text-xl font-bold text-center text-gray-700'>Register</Text>}
+                        {isLoading ?<Text className='text-xl font-bold text-center text-gray-700'> <ActivityIndicator animating={true} /> </Text> : <Text className='text-xl font-bold text-center text-gray-700'>Register</Text>}
                 </Text>
              </TouchableOpacity>
           </View>
