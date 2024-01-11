@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Pressable, useColorScheme, StyleSheet, View } from 'react-native';
+import { Pressable, useColorScheme, StyleSheet, View, SafeAreaView } from 'react-native';
 
 import React from 'react';
 import { ApplicationProvider, IconRegistry, Layout, Text } from '@ui-kitten/components';

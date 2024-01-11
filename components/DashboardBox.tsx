@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Post } from "../app/(tabs)/allPosts";
+import { PostType } from "../app/(tabs)/allPosts";
 
 
-export default function DasboardBox({ item } : {item : Post}) {
+export default function DasboardBox({ item } : {item : PostType}) {
 
     return (
         <View style={styles.container}>

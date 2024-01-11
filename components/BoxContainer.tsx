@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import { Post } from "../app/(tabs)/allPosts";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { PostType } from "../app/(tabs)/allPosts";
 
 
-export default function BoxContainer({ item } : {item : Post}) {
+export default function BoxContainer({ item, onPress } : {item : PostType, onPress?: () => void}) {
 
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={onPress}>
         <View style={styles.box}>
           <View style={styles.image}>
             <Image style={styles.myImage} source={{uri: item.image}} />
@@ -20,7 +20,7 @@ export default function BoxContainer({ item } : {item : Post}) {
             </Text>
           </View>
         </View>
-        </View>
+        </Pressable>
     )
 }
 
@@ -68,11 +68,14 @@ const styles = StyleSheet.create({
         color: "black"
     },
     bySection: {
+        // fontWeight: "bold",
+        // color: "black",
     },
     description: {
         textAlign: "left",
         color: "black"
-    }
+    },
+    
 })
 
 

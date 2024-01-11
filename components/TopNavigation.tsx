@@ -11,7 +11,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import { router } from 'expo-router';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MenuIcon = (props: any): IconElement => (
   <Icon
@@ -19,6 +19,10 @@ const MenuIcon = (props: any): IconElement => (
     name='more-vertical'
   />
 );
+
+const logout = async () => {
+  await AsyncStorage.removeItem("user")
+}
 
 const InfoIcon = (props: any): IconElement => (
   <Icon
@@ -63,7 +67,11 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
         title='About'
       />
       <MenuItem
-       onPress={() => {console.log("logout")}}
+       onPress={() => {
+        toggleMenu();
+        logout();
+        router.push("/");
+      }}
         accessoryLeft={LogoutIcon}
         title='Logout'
       />
@@ -72,10 +80,6 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
 
   const renderTitle = (props: any): React.ReactElement => (
     <View style={styles.titleContainer}>
-      {/* <Avatar
-        style={styles.logo}
-        source={require('../../assets/icon.png')}
-      /> */}
       <Text {...props} style={styles.name}>
         {title}
       </Text>
