@@ -10,7 +10,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getData } from '../utils/getData';
 
@@ -46,17 +46,16 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
 
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     const userIn = getData("user").then((value) => {
       const user = JSON.parse(value!);
-      console.log("from tabs : ",user);
       if (user?.data?.token){
         setShow(true);
       }else{
         setShow(false);
       }
     }).catch(err => console.log(err));
-  }, [])
+  })
 
   const toggleMenu = (): void => {
     setMenuVisible(!menuVisible);

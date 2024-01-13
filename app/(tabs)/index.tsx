@@ -9,6 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect, useState } from 'react';
 import { getData } from '../../utils/getData';
+import { useFocusEffect } from 'expo-router';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,17 +17,16 @@ export default function Container(){
 
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     const userIn = getData("user").then((value) => {
       const user = JSON.parse(value!);
-      console.log("from tabs : ",user);
       if (user?.data?.token){
         setShow(true);
       }else{
         setShow(false);
       }
     }).catch(err => console.log(err));
-  }, [])
+  })
 
   return(
     <Tab.Navigator>

@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Image  } f
 import { useForm, Controller } from 'react-hook-form';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
 import * as ImagePicker from "expo-image-picker";
+import { storeData } from '../../utils/storeData';
 
 export default () => {
     const FormData = global.FormData;
@@ -36,6 +37,8 @@ export default () => {
       .then(response => {
         console.log("response : ");
         console.log(response);
+        const userIn = JSON.stringify(response);
+        storeData('user', userIn);
     }).catch(err => console.log(err))
   };
 
