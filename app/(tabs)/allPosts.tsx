@@ -21,7 +21,6 @@ export default function AllPosts() {
   const [loading, setLoading] = useState(false)
 
   const fetchPosts = async () => {
-    console.log("fetching posts");
     setLoading(false);
     const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
       setPosts(data?.data);
