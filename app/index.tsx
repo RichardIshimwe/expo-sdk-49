@@ -7,6 +7,7 @@ import { Text, TextInput, TouchableOpacity, View, SafeAreaView, ActivityIndicato
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { storeData } from '../utils/storeData';
 import { getData } from '../utils/getData';
+import { DissmissKeyboardView } from '../components/DissmissKeyBoard';
 
 export default function TestTab() {
 
@@ -74,6 +75,7 @@ export default function TestTab() {
 
 
   return (
+    <DissmissKeyboardView>
     <View className='bg-red-300'>
       <View className="flex">
         <SafeAreaView className="flex-row justify-start">
@@ -156,5 +158,6 @@ export default function TestTab() {
         <Text className="font-semibold text-red-500">{errorMessage}</Text>
       </View>
     </View>
+    </DissmissKeyboardView>
   );
 }

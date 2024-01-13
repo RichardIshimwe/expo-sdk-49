@@ -5,6 +5,7 @@ import { Image } from "expo-image";
 import { blurhash } from '../singlePost';
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, ActivityIndicator } from 'react-native';
 import { storeData } from '../../utils/storeData';
+import { DissmissKeyboardView } from '../../components/DissmissKeyBoard';
 
 
 export default function TestTab() {
@@ -51,6 +52,7 @@ export default function TestTab() {
   };
 
   return (
+    <DissmissKeyboardView>
     <View className='bg-red-300'>
       <View className="flex">
         <SafeAreaView className="flex-row justify-start">
@@ -156,7 +158,7 @@ export default function TestTab() {
           <Text className="font-semibold text-yellow-500"><Link href="/sign-in">Login</Link></Text>
         </TouchableOpacity>
       </View>
-
     </View>
+    </DissmissKeyboardView>
   );
 }

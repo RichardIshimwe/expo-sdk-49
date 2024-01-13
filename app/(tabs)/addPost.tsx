@@ -10,6 +10,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { getData } from '../../utils/getData';
 import { blurhash } from '../singlePost';
 import { Image } from 'expo-image';
+import { DissmissKeyboardView } from '../../components/DissmissKeyBoard';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -39,9 +40,6 @@ export default () => {
         setAddPostLoading(false);
         return;
       }
-
-      // alert("hey alert");
-      // alert(JSON.stringify(data));
       const formData = new FormData();
       formData.append('image', {
         uri: image,
@@ -75,7 +73,6 @@ export default () => {
           setImage("");
           setAddPostLoading(false);
           return;
-          // return router.push("/(tabs)/");
         }).catch(err => {
           console.log(err);
           pushNotification({
@@ -157,6 +154,7 @@ export default () => {
   }
 
   return (
+    <DissmissKeyboardView>
     <View className='h-screen bg-green-400'>
       <TopNavigationImageTitleShowcase title="Add Posts" />
       <Stack.Screen options={{ headerShown: false }} />
@@ -217,5 +215,6 @@ export default () => {
         </View>
       </View>
     </View>
+    </DissmissKeyboardView>
   );
 };

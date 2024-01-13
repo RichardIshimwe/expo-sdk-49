@@ -23,7 +23,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme(); 
 
   return (
-    <React.Fragment >
+   <React.Fragment >
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light} >
       {/* <Layout> */}

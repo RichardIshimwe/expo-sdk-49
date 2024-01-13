@@ -7,6 +7,7 @@ import { getData } from '../../utils/getData';
 import { storeData } from '../../utils/storeData';
 import AllPosts from '../(tabs)/allPosts';
 import { PostType } from '../(tabs)/allPosts';
+import { DissmissKeyboardView } from '../../components/DissmissKeyBoard';
 
 export const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -52,6 +53,7 @@ export default function TestTab() {
         .then(response => response.json())
         .then(json => {
           setPost(json.data);
+          console.log(json.data)
           setIsLoading(false);
         })
         .catch((error) => {
@@ -66,13 +68,14 @@ export default function TestTab() {
   };
 
   return (
+  <DissmissKeyboardView>
     <SafeAreaView >
       <View className='h-screen'>
         <TouchableOpacity
           className="bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4 w-[80px]">
           <Text className="text-xl font-bold text-center text-gray-700"><Link href="/(tabs)/dashboard">Back</Link></Text>
         </TouchableOpacity>
-        {!isLoading ? (post ? <View className='flex bg-green-500 items-center p-[10px]'>
+        {!isLoading ? (post ? <View className='flex items-center p-[10px]'>
           {post.image ? <View className='h-[300px] w-[100%] bg-black rounded-xl'>
             <View className='flex-1 justify-center items-center'>
               <Image
@@ -91,6 +94,27 @@ export default function TestTab() {
         </View> : <Text>Post not found return to the home page</Text>) : <View className='h-screen pt-[90px]'><ActivityIndicator animating={true} /></View>}
         <View className='flex justify-center m-[10px]'>
           <View>
+            <View>
+            {post && post?.comments.length > 0 ? <View>
+              <Text className='mb-1 text-lg'>
+                  Comment Section : 
+              </Text>
+              {post?.comments.map((comment : {name: string, comment: string}) => <View className='border-2 border-black p-1 rounded-lg mb-1'>
+                <View>
+                 <Text className='font-bold text-black text-lg'>
+                  {comment?.name}
+                 </Text>
+                </View>
+                <View>
+                 <Text>
+                  {comment?.comment}
+                 </Text>
+                </View>
+                <View></View>
+              </View>)}
+            </View> : <Text className='mb-1 text-lg'>
+                  no comments available 
+              </Text>}
             <Controller 
             control={control}
             render= {({field : {onChange, onBlur, value}}) => (
@@ -113,8 +137,10 @@ export default function TestTab() {
             {addPostLoading ? <ActivityIndicator animating={true} /> : <Text className='text-white font-bold'>Leave a comment</Text>}
           </TouchableOpacity>
           </View>
+          </View>
        </View>
       </View>
     </SafeAreaView>
+  </DissmissKeyboardView>
   );
 }
