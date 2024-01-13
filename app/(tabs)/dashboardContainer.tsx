@@ -15,6 +15,7 @@ import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { notifications } from '../../modal/notifications';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { getData } from '../../utils/getData';
 
 export   type Post = {
  _id: string,
@@ -42,25 +43,27 @@ export default function DashboardContainer() {
  const fetchPosts = async () => {
    const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
      setPosts(data?.data);
-     console.log(data?.data);
    }).catch(err => console.log(err));
  }
 
  const deletePost = async (id: string) => {
    setDeleting(true);
-   await fetch(`https://my-brand-cj08.onrender.com/blogs/${id}`, {
+   const userIn = getData("user").then((value) => {
+    const user = JSON.parse(value!);
+    console.log("the id is : ",id);
+    console.log("the token is :" , user?.data?.token)
+   fetch(`https://my-brand-cj08.onrender.com/blogs/${id}`, {
      method: 'DELETE',
      headers: {
-         'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im15IiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MDQxNTU2NTR9.NiAJTVgCtljdgI1osGe7FEfxWUjFV06O3lu6kYUUFlA",
-         'Content-Type': 'application/json'
+         'Authorization': `Bearer ${user?.data?.token}`,
        },
    })
    .then(response => response.json())
    .then(async resp => {
-     console.log(resp)
      setDeleting(false);
      await fetchPosts();
- }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
+  }).catch(err => console.log(err));
  }
 
  useFocusEffect(() => {
@@ -72,7 +75,6 @@ export default function DashboardContainer() {
  }, []);
 
  const onClose = (rowMap : any, rowKey : any) => {
-   console.log("closing model")
     if(rowMap[rowKey]) {
      rowMap[rowKey].closeRow();
     }
@@ -84,7 +86,6 @@ export default function DashboardContainer() {
    // const prevIndex = listData.findIndex(item => item.key === rowKey);
    // newData.splice(prevIndex, 1);
    // setListData(newData);
-   console.log("post id : ", rowKey);
    deletePost(rowKey);
  }
 
