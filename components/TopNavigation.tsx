@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   Avatar,
@@ -12,6 +12,7 @@ import {
 } from '@ui-kitten/components';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getData } from '../utils/getData';
 
 const MenuIcon = (props: any): IconElement => (
   <Icon
@@ -43,6 +44,20 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
 
   const [menuVisible, setMenuVisible] = React.useState(false);
 
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const userIn = getData("user").then((value) => {
+      const user = JSON.parse(value!);
+      console.log("from tabs : ",user);
+      if (user?.data?.token){
+        setShow(true);
+      }else{
+        setShow(false);
+      }
+    }).catch(err => console.log(err));
+  }, [])
+
   const toggleMenu = (): void => {
     setMenuVisible(!menuVisible);
   };
@@ -73,7 +88,7 @@ export const TopNavigationImageTitleShowcase = ({title}: {title: string}): React
         router.push("/");
       }}
         accessoryLeft={LogoutIcon}
-        title='Logout'
+        title={show ? "Logout" : "Login"}
       />
     </OverflowMenu>
   );

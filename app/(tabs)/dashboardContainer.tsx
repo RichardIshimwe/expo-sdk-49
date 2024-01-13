@@ -50,8 +50,6 @@ export default function DashboardContainer() {
    setDeleting(true);
    const userIn = getData("user").then((value) => {
     const user = JSON.parse(value!);
-    console.log("the id is : ",id);
-    console.log("the token is :" , user?.data?.token)
    fetch(`https://my-brand-cj08.onrender.com/blogs/${id}`, {
      method: 'DELETE',
      headers: {
