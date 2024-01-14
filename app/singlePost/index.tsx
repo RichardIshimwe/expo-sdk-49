@@ -16,6 +16,7 @@ export const blurhash =
 export default function TestTab() {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<any>();
   const [addPostLoading, setAddPostLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [post, setPost] = useState<PostType>();
@@ -29,12 +30,34 @@ export default function TestTab() {
 
   const onSubmit = (data : any) => {
     console.log(data);
+    console.log(user);
+    console.log(post);
+    fetch(`https://my-brand-cj08.onrender.com/comment/${post?._id}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${user?.data?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => {
+        console.log(response);
+        reset({
+         comment: ""
+        });
+        setAddPostLoading(false);
+        fecthBlog();
+        return;
+      }).catch(err => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {
     getData('user').then((value) => {
       const user = JSON.parse(value!);
       console.log(user?.data?.token);
+      setUser(user);
       fecthBlog();
     })
 
@@ -97,7 +120,7 @@ export default function TestTab() {
             <View>
             {post && post?.comments.length > 0 ? <View>
               <Text className='mb-1 text-lg'>
-                  Comment Section : 
+                  Comments Section : 
               </Text>
               {post?.comments.map((comment : {name: string, comment: string}) => <View className='border-2 border-black p-1 rounded-lg mb-1'>
                 <View>
