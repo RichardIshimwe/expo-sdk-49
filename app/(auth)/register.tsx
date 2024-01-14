@@ -51,14 +51,14 @@ export default function TestTab() {
 
   return (
     <DissmissKeyboardView>
-    <View className='bg-red-300'>
+    <View className='bg-whiteBg'>
       <View className="flex">
         <SafeAreaView className="flex-row justify-start">
           <TouchableOpacity
 
-            className="bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+            className="bg-topBd p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
           >
-            <Text className="text-xl font-bold text-center text-gray-700"><Link href="/(tabs)/dashboard">Back</Link></Text>
+            <Text className="text-xl font-bold text-center text-white"><Link href="/(tabs)/dashboard">Back</Link></Text>
           </TouchableOpacity>
         </SafeAreaView>
         <View className="flex-row justify-center">
@@ -84,7 +84,18 @@ export default function TestTab() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className='bg-red-300 h-[40px] p-2 rounded-md'
+                  style={{
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    padding: 10,
+                    marginTop: 10,
+                    shadowColor: '#999',
+                    shadowOffset: {width: 0, height: 1},
+                    marginBottom: 10,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5,
+                  }}
                     onBlur={onBlur}
                     onChangeText={value => onChange(value)}
                     value={value}
@@ -98,7 +109,18 @@ export default function TestTab() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className='bg-red-300 h-[40px] p-2 rounded-md'
+                  style={{
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    padding: 10,
+                    marginTop: 10,
+                    shadowColor: '#999',
+                    shadowOffset: {width: 0, height: 1},
+                    marginBottom: 10,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5,
+                  }}
                     onBlur={onBlur}
                     onChangeText={value => onChange(value)}
                     value={value}
@@ -112,7 +134,18 @@ export default function TestTab() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className='bg-red-300 h-[40px] p-2 rounded-md'
+                  style={{
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    padding: 10,
+                    marginTop: 10,
+                    shadowColor: '#999',
+                    shadowOffset: {width: 0, height: 1},
+                    marginBottom: 10,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5,
+                  }}
                     onBlur={onBlur}
                     onChangeText={value => onChange(value)}
                     value={value}
@@ -126,7 +159,18 @@ export default function TestTab() {
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    className='bg-red-300 h-[40px] p-2 rounded-md'
+                  style={{
+                    backgroundColor: '#FFF',
+                    borderRadius: 5,
+                    padding: 10,
+                    marginTop: 10,
+                    shadowColor: '#999',
+                    shadowOffset: {width: 0, height: 1},
+                    marginBottom: 10,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 5,
+                  }}
                     onBlur={onBlur}
                     onChangeText={value => onChange(value)}
                     value={value}
@@ -140,11 +184,11 @@ export default function TestTab() {
         </View>
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
-          className="py-3 bg-yellow-400 rounded-xl mt-4">
+          className="py-3 bg-black rounded-xl mt-4">
           <Text
             className="text-xl font-bold text-center text-gray-700"
           >
-            {isLoading ? <Text className='text-xl font-bold text-center text-gray-700'> <ActivityIndicator animating={true} /> </Text> : <Text className='text-xl font-bold text-center text-gray-700'>Register</Text>}
+            {isLoading ? <Text className='text-xl font-bold text-center text-white'> <ActivityIndicator animating={true} /> </Text> : <Text className='text-xl font-bold text-center text-white'>Register</Text>}
           </Text>
         </TouchableOpacity>
       </View>
@@ -153,7 +197,7 @@ export default function TestTab() {
           Already have an account?
         </Text>
         <TouchableOpacity>
-          <Text className="font-semibold text-yellow-500"><Link href="/">Login</Link></Text>
+          <Text className="font-semibold text-gray-700"><Link href="/">Login</Link></Text>
         </TouchableOpacity>
       </View>
     </View>

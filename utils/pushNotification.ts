@@ -9,5 +9,4 @@ export const pushNotification = async (message : any) => {
       },
       body: JSON.stringify(message)
     })   
-    console.log("pushing notification");
 }

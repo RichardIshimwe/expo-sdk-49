@@ -163,7 +163,18 @@ export default function DashboardContainer() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className='bg-red-300 h-[40px] p-2 rounded-md'
+              style={{
+                backgroundColor: '#FFF',
+                borderRadius: 5,
+                padding: 10,
+                marginTop: 10,
+                shadowColor: '#999',
+                shadowOffset: {width: 0, height: 1},
+                marginBottom: 10,
+                shadowOpacity: 0.8,
+                shadowRadius: 2,
+                elevation: 5,
+              }}
                 onBlur={onBlur}
                 onChangeText={value => onChange(value)}
                 value={value}
@@ -178,7 +189,18 @@ export default function DashboardContainer() {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 multiline={true}
-                className='bg-red-300 h-[100px] p-2 rounded-md'
+                style={{
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  padding: 10,
+                  marginTop: 10,
+                  shadowColor: '#999',
+                  shadowOffset: {width: 0, height: 1},
+                  marginBottom: 10,
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 5,
+                }}
                 onBlur={onBlur}
                 onChangeText={value => onChange(value)}
                 value={value}

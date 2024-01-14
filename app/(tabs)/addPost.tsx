@@ -155,7 +155,7 @@ export default () => {
 
   return (
     <DissmissKeyboardView>
-    <View className='h-screen bg-green-400'>
+    <View className='h-screen bg-whiteBg'>
       <TopNavigationImageTitleShowcase title="Add Posts" />
       <Stack.Screen options={{ headerShown: false }} />
       <View className='flex items-center mt-[50px]'>
@@ -165,7 +165,17 @@ export default () => {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className='bg-red-300 h-[40px] p-2 rounded-md'
+                style={{
+                backgroundColor: '#FFF',
+                borderRadius: 5,
+                padding: 10,
+                marginBottom: 10,
+                shadowColor: '#999',
+                shadowOffset: {width: 0, height: 1},
+                shadowOpacity: 0.8,
+                shadowRadius: 2,
+                elevation: 5,
+              }}
                 onBlur={onBlur}
                 onChangeText={value => onChange(value)}
                 value={value}
@@ -180,7 +190,19 @@ export default () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 multiline={true}
-                className='bg-red-300 h-[100px] p-2 rounded-md'
+                // className='bg-red-300 h-[100px] p-2 rounded-md'
+                style={{
+                  backgroundColor: '#FFF',
+                  borderRadius: 5,
+                  padding: 10,
+                  marginBottom: 10,
+                  shadowColor: '#999',
+                  shadowOffset: {width: 0, height: 1},
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 5,
+                  height: 100
+                }}
                 onBlur={onBlur}
                 onChangeText={value => onChange(value)}
                 value={value}
@@ -190,7 +212,18 @@ export default () => {
             rules={{ required: true }}
           />
           <TouchableOpacity
-            className='bg-red-300 h-[40px] p-2 rounded-md mt-[10px]'
+            // className='bg-red-300 h-[40px] p-2 rounded-md mt-[10px]'
+            style={{
+              backgroundColor: '#FFF',
+              borderRadius: 5,
+              padding: 10,
+              marginTop: 10,
+              shadowColor: '#999',
+              shadowOffset: {width: 0, height: 1},
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
+              elevation: 5,
+            }}
             onPress={selectFile}
           >
             <Text>Upload images</Text>
