@@ -46,8 +46,7 @@ export default function DashboardContainer() {
     const user = JSON.parse(value!);
    const response = fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
      const filteredData = data?.data?.filter((item : Post) => item.author === user?.data?.username)
-     console.log(filteredData);
-     setPosts(data?.data);
+     setPosts(filteredData);
    }).catch(err => console.log(err));
   }).catch(err => console.log(err))
  }
