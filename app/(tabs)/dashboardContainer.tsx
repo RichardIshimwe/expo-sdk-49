@@ -1,21 +1,18 @@
 import {
   StyleSheet, 
-  FlatList, 
-  View, Text,ScrollView,  
+  View, Text,  
   Animated,
-  TouchableHighlight,
   TouchableOpacity,
-  StatusBar,Image, ActivityIndicator } 
+  Image, ActivityIndicator, Modal, TextInput } 
   from 'react-native';
 
-import DasboardBox from '../../components/DashboardBox';
 import { useEffect, useState } from 'react';
-import { Stack, useFocusEffect } from 'expo-router';
-import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
-import { FontAwesome, AntDesign } from '@expo/vector-icons';
+import {  useFocusEffect } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
 import { notifications } from '../../modal/notifications';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { getData } from '../../utils/getData';
+import { Controller, useForm } from 'react-hook-form';
 
 export   type Post = {
  _id: string,
@@ -32,6 +29,9 @@ export default function DashboardContainer() {
 
  const [posts, setPosts] = useState<Post[]>([]);
  const [deleting, setDeleting] = useState(false);
+ const [openModal, setOpenModal] = useState(false);
+ const [addPostLoading, setAddPostLoading] = useState(false);
+ const [postId, setPostId] = useState("");
  const [listData, setListData] = useState(
    notifications.map((notificationItem, index) => ({
      key: `${index}`,
@@ -41,6 +41,7 @@ export default function DashboardContainer() {
  ));
 
  const fetchPosts = async () => {
+  // setOpenModal(false);
    const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
      setPosts(data?.data);
    }).catch(err => console.log(err));
@@ -72,10 +73,46 @@ export default function DashboardContainer() {
    fetchPosts();
  }, []);
 
+ const { register, setValue, handleSubmit, control, reset, formState: { errors } } = useForm({
+  defaultValues: {
+    title: "",
+    description: ""
+  }
+});
+
  const onClose = (rowMap : any, rowKey : any) => {
-    if(rowMap[rowKey]) {
-     rowMap[rowKey].closeRow();
-    }
+  setPostId(rowKey.id); 
+    setOpenModal(true); 
+    reset({
+      title: rowKey.title,
+      description: rowKey.description  
+    })
+ }
+
+ const onSubmit = (data: any) => {
+  console.log(data);
+  setAddPostLoading(true);
+  const userIn = getData("user").then((value) => {
+    const user = JSON.parse(value!);
+   fetch(`https://my-brand-cj08.onrender.com/blogs/${postId}`, {
+     method: 'PUT',
+     headers: {
+         'Authorization': `Bearer ${user?.data?.token}`,
+         'Content-Type': 'application/json',
+       },
+     body: JSON.stringify(data),
+   })
+   .then(response => response.json())
+   .then(async resp => {
+    setAddPostLoading(false);
+    setOpenModal(false);
+     await fetchPosts();
+    }).catch(err => console.log(err))
+  }).catch(err => {
+    console.log(err);
+    setOpenModal(false);
+    setAddPostLoading(false);
+  });
  }
 
  const onDelete = (rowKey : any) => {
@@ -85,6 +122,81 @@ export default function DashboardContainer() {
    // newData.splice(prevIndex, 1);
    // setListData(newData);
    deletePost(rowKey);
+ }
+
+ const transparent = "rgba(0,0,0,0.8)";
+
+ const renderModal = () => {
+  return(
+    <Modal
+    visible={openModal}
+    animationType='slide'
+    transparent={true}
+    >
+      <View
+      style={{
+        flex:1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: transparent
+      }}
+      >
+        <View
+        style={{
+          width: "90%",
+          height: "90%",
+          backgroundColor: "white",
+          borderRadius: 20,
+          padding: 20
+        }}
+        >
+          <TouchableOpacity onPress={() => setOpenModal(false)}>
+            <Text>close</Text>
+          </TouchableOpacity>
+          <View className='flex items-center mt-[50px]'>
+        <View className='w-[80%]'>
+          <Text >Title</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                className='bg-red-300 h-[40px] p-2 rounded-md'
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+              />
+            )}
+            name="title"
+            rules={{ required: true }}
+          />
+          <Text className=''>description</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                multiline={true}
+                className='bg-red-300 h-[100px] p-2 rounded-md'
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+              />
+            )}
+            name="description"
+            rules={{ required: true }}
+          />
+  
+          <TouchableOpacity
+            onPress={handleSubmit(onSubmit)}
+            className='bg-black rounded-md mt-[20px] flex items-center justify-center h-[40px]'
+          >
+            {addPostLoading ? <ActivityIndicator animating={true} /> : <Text className='text-white font-bold'>Submit</Text>}
+          </TouchableOpacity>
+        </View>
+      </View>
+        </View>
+      </View>
+    </Modal>
+  )
  }
 
  const VisibleItem = ({data} : {data : any}) => {
@@ -137,7 +249,7 @@ export default function DashboardContainer() {
     <HiddenItemWithActions
     data={data} 
     rowMap={rowMap}
-    onClose={() => onClose(rowMap, data._id)}
+    onClose={() => onClose(rowMap, {id : data.item._id, title: data.item.title, description: data.item.description})}
     onDelete={() => onDelete(data.item._id)}
     />
    )
@@ -161,6 +273,7 @@ export default function DashboardContainer() {
    //  onRightAction={onClose}
     onRightAction={onDelete}
     />
+    {renderModal()}
    </View>
  );
 }

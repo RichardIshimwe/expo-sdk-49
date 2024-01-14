@@ -1,11 +1,9 @@
-import { Link, router, useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Image } from "expo-image";
 import { Text, TouchableOpacity, View, SafeAreaView, ActivityIndicator, StyleSheet, TextInput, Button, keyboard } from 'react-native';
 import { getData } from '../../utils/getData';
-import { storeData } from '../../utils/storeData';
-import AllPosts from '../(tabs)/allPosts';
 import { PostType } from '../(tabs)/allPosts';
 import { DissmissKeyboardView } from '../../components/DissmissKeyBoard';
 
@@ -29,9 +27,6 @@ export default function TestTab() {
   });
 
   const onSubmit = (data : any) => {
-    console.log(data);
-    console.log(user);
-    console.log(post);
     fetch(`https://my-brand-cj08.onrender.com/comment/${post?._id}`, {
       method: 'POST',
       headers: {
