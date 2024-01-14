@@ -17,7 +17,7 @@ export default function TestTab() {
   useEffect(() => {
     getData('user').then((value) => {
       const user = JSON.parse(value!);
-      if (user) {
+      if (user?.data?.token) {
         router.push("/(tabs)/home");
       }
     })
@@ -30,7 +30,6 @@ export default function TestTab() {
     }
   });
   const onSubmit = async (data: any) => {
-    console.log("all data", data);
     setIsLoading(true);
     try {
       const response = await fetch(`https://my-brand-cj08.onrender.com/login`, {
@@ -45,7 +44,6 @@ export default function TestTab() {
       })
         .then(response => response.json())
         .then(json => {
-          console.log(json);
           setIsLoading(false);
           const userIn = JSON.stringify(json);
           if (json.data) {

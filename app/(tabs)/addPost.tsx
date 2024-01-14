@@ -1,6 +1,6 @@
 import { Stack, router } from 'expo-router';
 import { useCallback, useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, Platform, ActivityIndicator, Image } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { TopNavigationImageTitleShowcase } from '../../components/TopNavigation';
 import * as ImagePicker from "expo-image-picker";
@@ -8,8 +8,8 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { pushNotification } from '../../utils/pushNotification';
 import { getData } from '../../utils/getData';
-import { blurhash } from '../singlePost';
-import { Image } from 'expo-image';
+// import { blurhash } from '../singlePost';
+// import { Image } from 'expo-image';
 import { DissmissKeyboardView } from '../../components/DissmissKeyBoard';
 
 Notifications.setNotificationHandler({
@@ -69,7 +69,6 @@ export default () => {
             title: "",
             description: ""
           });
-          console.log("redirecting")
           setImage("");
           setAddPostLoading(false);
           return;
@@ -95,6 +94,7 @@ export default () => {
   };
 
   const selectFile = async () => {
+    console.log("selecting file");
     try {
       await ImagePicker.requestMediaLibraryPermissionsAsync();
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -103,10 +103,10 @@ export default () => {
         aspect: [4, 3],
         quality: 1,
       });
+      console.log(result); 
       if (!result.canceled) {
         setImage(result.assets[0].uri)
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -196,15 +196,11 @@ export default () => {
             <Text>Upload images</Text>
           </TouchableOpacity>
           <View className='mt-[10px]'>
-            {image && <View className='flex-1 justify-center items-center'>
-              <Image
-                className='flex-1 w-full h-full'
-                source={image}
-                placeholder={blurhash}
-                contentFit="cover"
-                transition={1000}
-              />
-            </View>}
+            {image &&
+            //  <View className='flex-1 justify-center items-center h-[400px] w-[400px]'>
+              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+            // </View>
+            }
           </View>
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}

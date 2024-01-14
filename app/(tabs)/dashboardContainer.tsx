@@ -42,9 +42,14 @@ export default function DashboardContainer() {
 
  const fetchPosts = async () => {
   // setOpenModal(false);
-   const response = await fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
+  const userIn = getData("user").then((value) => {
+    const user = JSON.parse(value!);
+   const response = fetch('https://my-brand-cj08.onrender.com/blogs').then(res => res.json()).then(data => {
+     const filteredData = data?.data?.filter((item : Post) => item.author === user?.data?.username)
+     console.log(filteredData);
      setPosts(data?.data);
    }).catch(err => console.log(err));
+  }).catch(err => console.log(err))
  }
 
  const deletePost = async (id: string) => {
@@ -90,7 +95,6 @@ export default function DashboardContainer() {
  }
 
  const onSubmit = (data: any) => {
-  console.log(data);
   setAddPostLoading(true);
   const userIn = getData("user").then((value) => {
     const user = JSON.parse(value!);

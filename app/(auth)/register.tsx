@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Image } from "expo-image";
@@ -37,10 +37,8 @@ export default function TestTab() {
       })
         .then((response) => response.json())
         .then((json) => {
-          console.log(json)
           setIsLoading(false);
-          const userIn = JSON.stringify(json);
-          storeData('user', userIn);
+          router.push("/");
         })
         .catch((error) => {
           console.log(error);
@@ -155,7 +153,7 @@ export default function TestTab() {
           Already have an account?
         </Text>
         <TouchableOpacity>
-          <Text className="font-semibold text-yellow-500"><Link href="/sign-in">Login</Link></Text>
+          <Text className="font-semibold text-yellow-500"><Link href="/">Login</Link></Text>
         </TouchableOpacity>
       </View>
     </View>

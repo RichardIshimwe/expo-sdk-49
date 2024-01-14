@@ -35,8 +35,6 @@ export default () => {
         body: formData,
       })
       .then(response => {
-        console.log("response : ");
-        console.log(response);
         const userIn = JSON.stringify(response);
         storeData('user', userIn);
     }).catch(err => console.log(err))
